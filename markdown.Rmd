@@ -1,0 +1,99 @@
+---
+title: "Untitled"
+output: 
+  html_document: 
+    highlight: espresso
+    keep_md: yes
+    theme: cosmo
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Shiny Apps are cool
+
+If i remember correctly, my first interaction with R dates back to 2016, when out of curiosity for this "data science" thing that everyone seemed to be getting hooked on, I recovered my Coursera password and with no hesitation I enrolled in the first course** of the Data Science Specialization by JHU.
+
+Didn't took me very long after that to get hooked up and join "everyone else" onboard the data science hype train. 
+
+Amongst all the R things I was discovering day by day, 
+the one that had the most wow-effect on my still fresh and impressionable data-scientist mind was Shiny.
+
+Sure, writing code in the R console while sitting on your desk wearing your favorite back hoodie and listening to some 90' rock classics IS cool. 
+No one argues that.
+
+in the dark  
+filtering data frames row at the speed of sound was 
+
+But. There was something just as cool in seeing how all these raw lifeless lines of R code could yield something pretty and stylish like these clean and interactive web pages or apps that anyone could use.
+
+I'll admit it did took me a while to build one Shiny App myself, mainly due to a hard time in coming up with a decent meaningfull idea for a web app based that essentially, runs R code.   
+And in fact I didnt, this is probably the useless Shiny App ever, but I had fun making it and learned a lot so, here it is.
+
+
+## All Time Ago: a very cringy name for a just as cringy Shiny App
+
+Allright, no point in going around the houses: my first Shiny App does one thing and one thing only: it tells you how long it has been since your last All Time Low concert. 
+
+That's it. 
+
+You input a date and it tells you 
+
+So... what does this have to do with data science? 
+Absolutely nothing.
+
+
+
+
+
+
+## Front end: how to make a Shiny App look pretty
+
+Let's be honest here: Shiny Apps out of the box tend to look kinda flat and colorless, with sans-serif Helvetica titles layed out on a bland white background and not much more.    
+
+
+But that's understandable, as they are not really ment to be looked at as much as II used for I something.
+
+
+In fact, if you really care about the web-design aspect you would probably look elsewhere for    
+
+Since my app doesn't do much in the first place, I wanted it to at least be something I enjoy looking at.  
+
+Shiny does allow you to change the apperance of your UI, although that does require you to know some HTML and CSS or be willing to learn that.
+
+With Shiny, the front-end (or UI) is largely (if not entirely) based upon Bootstrap, a very popular framework for building responsive website layouts without needing to loose your mind with all the CSS  
+
+That said, 
+
+
+
+
+For the calendar/date picker I did try/considered a few options: the default one from the Shiny dateInput() function comes with very few options to change its appearance, and even when I tryied playing around adding extra CSS (on top of the build-in Bootstrap classes it comes with)  
+
+turned out to be difficult to style it as I wished, especially the poup I also couldn't find a way to get rid of the pop-
+
+
+
+
+
+** I actually never took the first introductorty course on Data Reproducibility and gitHub but went straight to the R Programming. 
+
+
+** Fun fact: the background photo I used was (by xxxxxxxxx ) is from  the Milan ATL show in April 2017 and I was actually there. 
+
+
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.

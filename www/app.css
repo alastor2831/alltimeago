@@ -1,8 +1,9 @@
-@import url('https://fonts.googleapis.com/css?family=Kaushan+Script|Permanent+Marker');
+@import url('https://fonts.googleapis.com/css?family=Kaushan+Script|Permanent+Marker|Patrick+Hand|Kalam');
 
 body {
   
   background-image: url('bg.jpg');
+  background-color: black;
   background-repeat: no-repeat;
   background-attachment: scroll;                  
   background-position: center;
@@ -23,17 +24,25 @@ h1{
 h2 {
   color: white;
   font-family: 'Kaushan Script';
-  background-color: #968686;
-  opacity: 0.7;
+  background-color: #96868666;
+  
 }
 
-button {
-  background-color: pink;
+h3 {
+  color: white;
+  font-family: 'Patrick Hand';
+  background-color: #96868666;
+}
+
+.bttn-block {
+  font-family: 'Patrick Hand';
+  width: 60%;
+  margin: auto;
   border: none;
   color: white;
   text-align: center;
   border-radius: 10px;
-  font-size: 35px ;
+  font-size: 35px;
   
 }
 
@@ -46,14 +55,59 @@ button {
 }
 
 
-.form-control{
-        
-        text-align: center;
+.datepicker{
+  background: rgba(222, 222, 222, 0.6);
+  font-family: Patrick Hand;    
+  padding: 20px;
+  font-size: 1.5em; 
+  margin: auto !important;
+  border-color: transparent !important;
+  
+}
+
+.datepicker--day-name {
+  color: darkgrey;
+}  
+
+.datepicker--day-names {
+  font-weight: 600;
+}  
+
+.datepicker--cell.-selected- {
+  background: #ff5964;  
+}
+
+.datepicker--cell.-selected-.-focus- {
+  background: #ff838b;  
+}
+
+.datepicker--cell.-current- {
+  color: black;
+}
+
+.value{
+  margin-bottom: 30px;
+}
+
+.footer {
+  font-family: Kalam;
+  font-size: 1em;
+  color: white;
+  background-color: black;
+  position:absolute;
+  bottom:0;
+  text-align: center;
+  width: 100%;
+  
+}
+
+.-focus- datepicker--days
+
+
+ text-align: center;
         padding: 25px 30px;
         margin: 50px 0px; 
         font-size: 70px;
-        border: none;
+        
         outline: none;
         color: white;
-        background-color: transparent;
-}

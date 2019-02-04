@@ -1,7 +1,8 @@
 library(shiny)
 library(httr)
 library(jsonlite)
-setlist_key <- read.delim(file = "key.txt", header = F, nrows = 1)
+library(shinyWidgets)
+setlist_key <- read_file(file = "key.txt")
 setlist_root <- "https://api.setlist.fm"
 
 # Define UI
@@ -15,32 +16,37 @@ ui <- tagList(
           verticalLayout(
             h1("All Time Ago"),
             h2("A web app that tells you how long it has been since your last All Time Low concert"),
-            h3("Simply enter the date of the last concert you went to and press GO!"),
+            h3("Just pick the date of your last concert and press GO!"),
             div(class = "input_area",
-                dateInput(inputId = "date",
+                airDatepickerInput(inputId = "date",
                          label = NULL,
-                         format = "dd-mm-yyyy",
-                         value = "2017-05-09")
+                         placeholder = "ENter a date",
+                         dateFormat = "dd-mm-yyyy",
+                         view = "years",
+                         inline = TRUE,
+                         value = "2018-12-22"
+                         )
             ),
           
-               tags$button(id = "button1",
-                           type = "button",
-                           class = "action-button",
-                           "Submit"),
-            uiOutput(outputId = "value", inline = TRUE),
-            HTML('<a href="https://twitter.com/share?ref_src=twsrc%5
-                       Etfw" class="twitter-share-button" data-size="large" 
-                       data-show-count="false">Tweet</a><script async
-                       src="https://platform.twitter.com/widgets.js" 
-                       charset="utf-8"></script>')    
-            )
-        )
-    )
+               actionBttn(inputId = "button1",
+                          label = "Go!",
+                          style = "material-flat",
+                          color = "danger",
+                          size = "lg",
+                          block = TRUE),
+            uiOutput(outputId = "value", inline = TRUE)
 
-# Define server logic required to draw a histogram
+            )
+        ),
+        div(class = "footer",
+            p('Concerts data from', strong('setlist.fm')),
+            p('Developed by Nick with Shiny'))
+)
+
+# Define server logic 
 server <- function(input, output) {
    
-   re <- eventReactive(input$button1, {
+   num_days_html <- eventReactive(input$button1, {
 
      
      setlist_url <- paste(setlist_root, "/rest/1.0/search/setlists?",
@@ -51,25 +57,40 @@ server <- function(input, output) {
      
      if(setlist_response[2] == "200"){
        
-       raw_gig <- content(setlist_response, as = "text", encoding = "UTF-8")
-       gig <- fromJSON(raw_gig, flatten = TRUE)
+       gig_raw <- content(setlist_response, as = "text", encoding = "UTF-8")
+       gig <- fromJSON(gig_raw, flatten = TRUE)
        
-       result <- c(date = gig$setlist$eventDate[1],
+       gig_df <- c(date = gig$setlist$eventDate[1],
                    venue = gig$setlist$venue.name[1],
                    city = gig$setlist$venue.city.name[1],
                    state = gig$setlist$venue.city.state[1],
                    country = gig$venue.city.country.name[1])
+       num_days <- Sys.Date() - input$date
        
-       h3(paste("It has been ", Sys.Date() - input$date,
-                "days since you last saw All Time Low at",
-                result[['venue']], "in ", result[["city"]], ", ", result[["state"]]))
+       gig_text <- h3(paste("It has been ", num_days,
+                         "days since you last saw All Time Low at",
+                         gig_df[['venue']], "in ", gig_df[["city"]], ", ", gig_df[["state"]])
+                    )
        
-       }
-     else h4("Mayday situation! We have no record of an All Time Low show on this day! Try again maybe?")
+       setlist_text <- paste0("Feeling nostalgic? Check out the setlist for that show or ")
+       
+       tweet_text <- HTML(paste0('<a class="twitter-share-button" href=https://twitter.com/intent/tweet" data-size="large" data-text="It has been ',
+                           num_days, ' since I last saw @AllTimeLow at ', gig_df[['venue']],
+                           " in ", gig_df[["city"]], ", ", gig_df[["state"]], '" url="" data-hashtags="AllTimeAgo" data-show-count="false">Tweet</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>')
+       )
+   
+  
+       return(list(gig_text, tweet_text))
+       
+     }
+     
+     else h3("Mayday situation! We have no record of an All Time Low show on this day! Try again maybe?")
+     
+    
 })
    
    output$value <-  renderUI({
-     re()
+     num_days_html()
    }) 
 
    

@@ -1,6 +1,6 @@
 library(httr)
 library(jsonlite)
-#setlist_key <- "66b0602a-9d13-41e8-a5f0-721bd9dfad35"
+#setlist_key <- ""
 
 #setlist_root <- "https://api.setlist.fm"
 

@@ -2,6 +2,7 @@ library(shiny)
 library(httr)
 library(jsonlite)
 library(shinyWidgets)
+library(readr)
 setlist_key <- read_file(file = "key.txt")
 setlist_root <- "https://api.setlist.fm"
 
@@ -20,7 +21,6 @@ ui <- tagList(
             div(class = "input_area",
                 airDatepickerInput(inputId = "date",
                          label = NULL,
-                         placeholder = "ENter a date",
                          dateFormat = "dd-mm-yyyy",
                          view = "years",
                          inline = TRUE,
@@ -38,9 +38,10 @@ ui <- tagList(
 
             )
         ),
-        div(class = "footer",
+          div(class = "footer",
             p('Concerts data from', strong('setlist.fm')),
-            p('Developed by Nick with Shiny'))
+            HTML('<p>Developed by <a href="https://twitter.com/nickeatingpizza">Nick</a> with <img class="shiny-logo" alt="Shiny" src="shiny-logo.png"> ~2018')
+        )
 )
 
 # Define server logic 
@@ -64,19 +65,19 @@ server <- function(input, output) {
                    venue = gig$setlist$venue.name[1],
                    city = gig$setlist$venue.city.name[1],
                    state = gig$setlist$venue.city.state[1],
-                   country = gig$venue.city.country.name[1])
+                   url = gig$setlist$url[1])
        num_days <- Sys.Date() - input$date
        
-       gig_text <- h3(paste("It has been ", num_days,
-                         "days since you last saw All Time Low at",
-                         gig_df[['venue']], "in ", gig_df[["city"]], ", ", gig_df[["state"]])
-                    )
+       gig_text <- HTML(paste("<p class='days'>It has been <span style='color:#ff5964'>", num_days,
+                         "</span> days since you last saw All Time Low at",
+                         gig_df[['venue']], "in ", gig_df[["city"]], ", ", gig_df[["state"]], "</p>",
+                         "<p class='setlist'>Feeling nostalgic? Check out the full <a href='", gig_df[['url']],
+                         "'><img class='setlist-logo' src='setlist-logo.png' alt='setlist'></a>")
+                        )
        
-       setlist_text <- paste0("Feeling nostalgic? Check out the setlist for that show or ")
-       
-       tweet_text <- HTML(paste0('<a class="twitter-share-button" href=https://twitter.com/intent/tweet" data-size="large" data-text="It has been ',
+       tweet_text <- HTML(paste0('<p class="tweet">Also, tell your friends with a <a class="twitter-share-button" href=https://twitter.com/intent/tweet" data-size="large" data-text="It has been ',
                            num_days, ' since I last saw @AllTimeLow at ', gig_df[['venue']],
-                           " in ", gig_df[["city"]], ", ", gig_df[["state"]], '" url="" data-hashtags="AllTimeAgo" data-show-count="false">Tweet</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>')
+                           " in ", gig_df[["city"]], ", ", gig_df[["state"]], '" url="" data-hashtags="AllTimeAgo" data-show-count="false">Tweet</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script></p>')
        )
    
   
@@ -84,7 +85,7 @@ server <- function(input, output) {
        
      }
      
-     else h3("Mayday situation! We have no record of an All Time Low show on this day! Try again maybe?")
+     else h3("Mayday situation! We have no record of an All Time Low show on this day! Try again maybe? (if you don't know a date, just use the default one)")
      
     
 })
